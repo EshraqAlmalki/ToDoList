@@ -10,6 +10,7 @@ data class ToDo(
     var title:String="",
     var description:String="",
     var date: Date =Date(),
-    var done:Boolean=false
+    var done:Boolean=false,
+    var category: String=""
 
 )
