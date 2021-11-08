@@ -1,6 +1,8 @@
 package com.example.todolist.ToDoFragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import com.example.todolist.DatePickerDialogFragment
 import com.example.todolist.R
+import com.example.todolist.ToDoListFragment.KYE_ID
 import com.example.todolist.dateBase.ToDo
 import java.util.*
 
@@ -66,9 +69,58 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
 
         }
 
+        val textWatcher = object :TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                todo.title=s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        }
+
+        titleEditText.addTextChangedListener(textWatcher)
+        decEditText.addTextChangedListener(textWatcher)
+
         doneCheckBox.setOnCheckedChangeListener { _ , isChecked ->
             todo.done=isChecked
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        todo= ToDo()
+
+        val todoId = arguments?.getSerializable(KYE_ID) as UUID
+        fragmentViewModel.loadToDo(todoId)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        fragmentViewModel.todoLiveData.observe(
+            viewLifecycleOwner, androidx.lifecycle.Observer {
+                it?.let {
+                    todo = it
+                    titleEditText.setText(it.title)
+                    dateBtn.text=it.date.toString()
+                    decEditText.setText(it.description)
+
+                }
+            }
+        )
+
+
+
+
+
+
     }
 
     override fun onStop() {

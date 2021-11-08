@@ -13,6 +13,11 @@ interface ToDoDao {
    @Query("SELECT * FROM todo WHERE id=(:id)")
    fun getToDo(id:UUID):LiveData<ToDo?>
 
+
+@Query("SELECT * FROM todo WHERE category=(:category)")
+fun getCat(category : String):LiveData<List<ToDo?>>
+
+
    @Update
    fun updateToDo(todo:ToDo)
 

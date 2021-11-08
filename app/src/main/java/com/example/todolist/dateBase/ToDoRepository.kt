@@ -44,6 +44,12 @@ class ToDoRepository private constructor(context: Context){
         }
     }
 
+    fun getCat(category: String){
+        executor.execute {
+            todoDao.getCat(category)
+        }
+    }
+
     companion object{
         var INSTANCE :ToDoRepository?=null
         fun initialize(context: Context){
