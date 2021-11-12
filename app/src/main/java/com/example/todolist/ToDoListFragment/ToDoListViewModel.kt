@@ -12,18 +12,9 @@ class ToDoListViewModel:ViewModel() {
     val LiveDataTodo = todoRepository.getAllToDo()
 
 
-
-    fun addTodo(toDo: ToDo){
-        todoRepository.addToDo(toDo)
-    }
     fun delTodo(toDo: ToDo){
         todoRepository.delToDo(toDo)
     }
-
-
-
-
-
 
 
 }

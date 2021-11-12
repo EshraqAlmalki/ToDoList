@@ -1,10 +1,13 @@
 package com.example.todolist.ToDoListFragment
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.ToDoFragment.ToDoFragment
 import com.example.todolist.dateBase.ToDo
-import com.example.todolist.dateBase.ToDoDao
-import com.example.todolist.dateBase.ToDoRepository
+import java.text.SimpleDateFormat
 import java.util.*
 
+const val KYE_ADD = "add task"
+//const val KYE_UPDATE = "update task"
 const val KYE_ID = "myid"
+const val FORMAT_KYE ="dd/MM/yyyy"
 class ToDoListFragment :Fragment(){
 
 
@@ -39,24 +44,14 @@ class ToDoListFragment :Fragment(){
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when(item.itemId){
-        R.id.new_todo ->{
-        val todo = ToDo()
-            toDoListViewModel.addTodo(todo)
-            val args =Bundle()
-            args.putSerializable(KYE_ID,todo.id)
-
-            val fragment = ToDoFragment()
-            fragment.arguments =args
+        R.id.new_todo ->{ val fragment = ToDoFragment()
             activity?.let {
-                it.supportFragmentManager
+                     it.supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container,fragment)
                     .addToBackStack(null)
-                    .commit()
-            }
-            Log.d("Eshraq","hi from here")
-            true
-        }else->super.onContextItemSelected(item)
+                    .commit()}
+            true }else->super.onContextItemSelected(item)
     }
     }
 
@@ -77,9 +72,7 @@ class ToDoListFragment :Fragment(){
         val linearLayoutManager= LinearLayoutManager(context)
         todoRecyclerView.layoutManager=linearLayoutManager
 
-         val sportBtn: Button = view.findViewById(R.id.sport_cat)
-         val workBtn: Button = view.findViewById(R.id.work_cat)
-         val homeBtn: Button = view.findViewById(R.id.home_cat)
+
 
 
     return view
@@ -109,6 +102,7 @@ class ToDoListFragment :Fragment(){
         private lateinit var todo: ToDo
         private val titleTextView: TextView = itemView.findViewById(R.id.task_title_item)
         private val dateTextView: TextView = itemView.findViewById(R.id.task_date_item)
+        private val dueTextView:TextView = itemView.findViewById(R.id.due_date)
 
         val delBtn: Button = view.findViewById(R.id.del_btn)
 
@@ -122,20 +116,53 @@ class ToDoListFragment :Fragment(){
 
         }
 
+        @SuppressLint("SimpleDateFormat")
         fun bind(todo: ToDo) {
             this.todo = todo
-            titleTextView.text = todo.title
-            dateTextView.text = todo.date.toString()
+                titleTextView.text = todo.title
+            if (todo.duoDate != null ) {
+                dateTextView.text = todo.duoDate.toString()
+            }else{
+
+                dateTextView.text=""
+            }
 
 
 
+            val currentDate = Date()
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
+            // currentDate = dateFormat.parse(dateFormat.format(currentDate))
 
+
+
+            if (todo.duoDate != null) {
+                if (currentDate.after(todo.duoDate)) {
+
+                    dueTextView.visibility = View.VISIBLE
+                }
+            }
+
+
+            when(todo.category){
+                "work" -> {
+                    titleTextView.setTextColor(Color.RED)
+                }
+                "Home" -> {
+                    titleTextView.setTextColor(Color.YELLOW)
+                }
+                "sport" -> {
+                    titleTextView.setTextColor(Color.BLUE)
+                }
+            }
         }
+
 
         override fun onClick(v: View?) {
             if (v==itemView){
                 val args = Bundle()
                 args.putSerializable(KYE_ID,todo.id)
+                args.putString(KYE_ADD,"add task")
+ //               args.putString(KYE_UPDATE,"update")
 
                 val fragment=ToDoFragment()
                 fragment.arguments=args

@@ -14,10 +14,11 @@ class DatePickerDialogFragment:DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val date= arguments?.getSerializable(TODO_DATE_KYE) as Date
+        val date= arguments?.getSerializable(TODO_DATE_KYE) as? Date
 
         val calendar=Calendar.getInstance()
-        calendar.time=date
+        if(date!= null)
+        { calendar.time=date }
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)

@@ -26,6 +26,10 @@ class ToDoFragmentViewModel:ViewModel() {
         toDoRepository.updateToDo(toDo)
     }
 
+    fun addTodo(toDo: ToDo){
+        toDoRepository.addToDo(toDo)
+    }
+
 
 
 

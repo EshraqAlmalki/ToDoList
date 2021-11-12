@@ -9,13 +9,9 @@ data class ToDo(
     @PrimaryKey val id:UUID=UUID.randomUUID(),
     var title:String="",
     var description:String="",
-    var date: Date =Date(),
+    var duoDate: Date? =null,
     var done:Boolean=false,
-    var category: String=""
-
-
-
-
-
+    var category: String="",
+    var date:Date = Date()
 
 )
