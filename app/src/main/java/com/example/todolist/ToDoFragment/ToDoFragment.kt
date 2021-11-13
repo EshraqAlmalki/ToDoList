@@ -22,6 +22,7 @@ import com.example.todolist.dateBase.ToDo
 import java.util.*
 
 const val TODO_DATE_KYE="todo-date"
+const val FORMAT_KYE ="dd/MM/yyyy"
 class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
 
     private lateinit var titleEditText:EditText
@@ -209,11 +210,13 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
         super.onViewCreated(view, savedInstanceState)
         val sender = arguments?.getString(KYE_ADD)
 
+
+
+
         if (todo.duoDate != null ) {
             dateBtn.text = todo.duoDate.toString()
         }else{
-
-            dateBtn.text=""
+            dateBtn.text = "add due date"
         }
 
 
@@ -235,8 +238,14 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
                     dateBtn.text=it.duoDate.toString()
                     decEditText.setText(it.description)
 
+
                 }
+                if(todo.duoDate==null){
+                    dateBtn.text="add due date"
+                }
+
             }
+
         )
 
 
@@ -253,10 +262,9 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
 
     override fun onDateSelected(date: Date) {
         todo.duoDate=date
-       dateBtn.text=date.toString()
+      // dateBtn.text=date.toString()
 
-
-
+        dateBtn.text=android.text.format.DateFormat.format(FORMAT_KYE,todo.duoDate)
 
 
     }

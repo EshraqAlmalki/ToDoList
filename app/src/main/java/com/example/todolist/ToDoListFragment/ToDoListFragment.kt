@@ -1,6 +1,7 @@
 package com.example.todolist.ToDoListFragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 import com.example.todolist.ToDoFragment.ToDoFragment
 import com.example.todolist.dateBase.ToDo
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -102,16 +104,14 @@ class ToDoListFragment :Fragment(){
         private lateinit var todo: ToDo
         private val titleTextView: TextView = itemView.findViewById(R.id.task_title_item)
         private val dateTextView: TextView = itemView.findViewById(R.id.task_date_item)
-        private val dueTextView:TextView = itemView.findViewById(R.id.due_date)
+
 
         val delBtn: Button = view.findViewById(R.id.del_btn)
 
 
         init {
             itemView.setOnClickListener(this)
-            delBtn.setOnClickListener{
-                toDoListViewModel.delTodo(todo)
-            }
+            delBtn.setOnClickListener(this)
 
 
         }
@@ -120,27 +120,30 @@ class ToDoListFragment :Fragment(){
         fun bind(todo: ToDo) {
             this.todo = todo
                 titleTextView.text = todo.title
+
             if (todo.duoDate != null ) {
                 dateTextView.text = todo.duoDate.toString()
+
+
             }else{
 
                 dateTextView.text=""
             }
 
-
-
-            val currentDate = Date()
+            var currentDate = Date()
             val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            // currentDate = dateFormat.parse(dateFormat.format(currentDate))
+             currentDate = dateFormat.parse(dateFormat.format(currentDate))
 
 
 
             if (todo.duoDate != null) {
                 if (currentDate.after(todo.duoDate)) {
+                    dateTextView.setTextColor(Color.RED)
 
-                    dueTextView.visibility = View.VISIBLE
                 }
             }
+
+
 
 
             when(todo.category){
@@ -154,6 +157,13 @@ class ToDoListFragment :Fragment(){
                     titleTextView.setTextColor(Color.BLUE)
                 }
             }
+
+            when(todo.done){
+                true -> titleTextView.setTextColor(Color.RED)
+            }
+
+
+
         }
 
 
@@ -167,16 +177,34 @@ class ToDoListFragment :Fragment(){
                 val fragment=ToDoFragment()
                 fragment.arguments=args
                 activity?.let {
+
                     it.supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.fragment_container,fragment)
                         .addToBackStack(null)
                         .commit()
                 }
-
-
             }
 
+            if(v==delBtn){
+                val builder = context?.let { it -> AlertDialog.Builder(it)
+
+                }
+                builder?.let {
+                    it.setMessage("Are you sure you want to remove this task?")
+                    it.setCancelable(false)
+                    it.setPositiveButton("Yes, I'm"){dialog, id ->
+                        toDoListViewModel.delTodo(todo)}
+                    it.setNegativeButton("No"){
+                        dialog,id-> dialog.dismiss()
+                    }
+
+                    val alert = builder.create()
+                    alert.show()
+
+                }
+
+            }
         }
     }
 
@@ -201,4 +229,4 @@ class ToDoListFragment :Fragment(){
 
 
 
-}
+    }
