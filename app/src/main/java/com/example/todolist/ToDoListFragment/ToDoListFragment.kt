@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.text.format.DateFormat.format
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -18,6 +19,8 @@ import com.example.todolist.R
 import com.example.todolist.ToDoFragment.ToDoFragment
 import com.example.todolist.dateBase.ToDo
 import org.w3c.dom.Text
+import java.lang.String.format
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -122,8 +125,9 @@ class ToDoListFragment :Fragment(){
                 titleTextView.text = todo.title
 
             if (todo.duoDate != null ) {
-                dateTextView.text = todo.duoDate.toString()
 
+                dateTextView.text = todo.duoDate.toString()
+                dateTextView.text= DateFormat.getDateInstance().format(todo.duoDate)
 
             }else{
 
@@ -138,7 +142,9 @@ class ToDoListFragment :Fragment(){
 
             if (todo.duoDate != null) {
                 if (currentDate.after(todo.duoDate)) {
-                    dateTextView.setTextColor(Color.RED)
+
+                  dateTextView.setTextColor(Color.RED)
+
 
                 }
             }
@@ -148,18 +154,19 @@ class ToDoListFragment :Fragment(){
 
             when(todo.category){
                 "work" -> {
-                    titleTextView.setTextColor(Color.RED)
+                    titleTextView.setTextColor(resources.getColor(toDoListViewModel.brown))
                 }
                 "Home" -> {
-                    titleTextView.setTextColor(Color.YELLOW)
+                    titleTextView.setTextColor(resources.getColor(toDoListViewModel.blue))
                 }
                 "sport" -> {
-                    titleTextView.setTextColor(Color.BLUE)
+                    titleTextView.setTextColor(resources.getColor(toDoListViewModel.yellow))
                 }
             }
 
             when(todo.done){
-                true -> titleTextView.setTextColor(Color.RED)
+
+                true -> titleTextView.setTextColor(Color.GRAY)
             }
 
 

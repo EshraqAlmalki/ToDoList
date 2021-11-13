@@ -19,6 +19,7 @@ import com.example.todolist.ToDoListFragment.KYE_ADD
 import com.example.todolist.ToDoListFragment.KYE_ID
 import com.example.todolist.ToDoListFragment.ToDoListFragment
 import com.example.todolist.dateBase.ToDo
+import java.text.DateFormat
 import java.util.*
 
 const val TODO_DATE_KYE="todo-date"
@@ -61,9 +62,6 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
         workcat=view.findViewById(R.id.radio_btn_work)
         homecat=view.findViewById(R.id.radio_btn_home)
         radioGroup=view.findViewById(R.id.radio_group)
-
-
-
 
 
 
@@ -203,14 +201,11 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
             fragmentViewModel.loadToDo(todoId)
        }
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sender = arguments?.getString(KYE_ADD)
-
-
 
 
         if (todo.duoDate != null ) {
@@ -220,14 +215,11 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
         }
 
 
-
         if ( sender == "add task"){
             saveBtn.isEnabled = false
         }else  {
             updateBtn.isEnabled = false
         }
-
-
 
 
         fragmentViewModel.todoLiveData.observe(
@@ -237,21 +229,33 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
                     titleEditText.setText(it.title)
                     dateBtn.text=it.duoDate.toString()
                     decEditText.setText(it.description)
-
-
                 }
+
                 if(todo.duoDate==null){
                     dateBtn.text="add due date"
+                }else {
+                    dateBtn.text = DateFormat.getDateInstance().format(todo.duoDate)
+                }
+
+                if (todo.done==true){
+                    doneCheckBox.isChecked=true
+                }
+
+                if(todo.category=="sport"){
+                    sportcat.isChecked=true
+                }
+
+                if (todo.category=="Home"){
+                    homecat.isChecked=true
+                }
+
+                if (todo.category=="work"){
+                    workcat.isChecked=true
                 }
 
             }
 
         )
-
-
-
-
-
 
     }
 
@@ -262,12 +266,7 @@ class ToDoFragment : Fragment() , DatePickerDialogFragment.datePickerCallBack{
 
     override fun onDateSelected(date: Date) {
         todo.duoDate=date
-      // dateBtn.text=date.toString()
 
-        dateBtn.text=android.text.format.DateFormat.format(FORMAT_KYE,todo.duoDate)
-
-
+        dateBtn.text= DateFormat.getDateInstance().format(todo.duoDate)
     }
-
-
 }

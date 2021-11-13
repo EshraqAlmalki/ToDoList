@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:fontFamily="@font/short_stack"
+            android:fontFamily="@font/im_fell_english"
             android:text="Title:"
             android:textColor="#F9E07E"
             android:textSize="24sp"
@@ -36,8 +36,10 @@
             android:layout_marginEnd="5sp"
             android:layout_marginBottom="15sp"
             android:ems="20"
-            android:hint="Name"
+            android:fontFamily="@font/im_fell_english"
+            android:hint="Enter the title here"
             android:inputType="textPersonName"
+            android:minHeight="48dp"
             android:textColor="#0B164E"
             android:textColorHighlight="#0B164E"
             android:textColorHint="#720B164E"
@@ -58,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:fontFamily="@font/short_stack"
+            android:fontFamily="@font/im_fell_english"
             android:text="Description:"
             android:textColor="#F9E07E"
             android:textSize="24sp"
@@ -74,7 +76,8 @@
             android:layout_height="wrap_content"
 
             android:ems="20"
-            android:hint="Enter You Description Here:"
+            android:fontFamily="@font/im_fell_english"
+            android:hint="Enter You Description Here"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="#0B164E"
@@ -93,6 +96,8 @@
             android:layout_marginLeft="10sp"
             android:text="i did it!"
             android:textColor=" #F0B400"
+            android:textColorHighlight="#0B164E"
+            android:textColorLink="#0B164E"
             app:useMaterialThemeColors="false"
             tools:layout_conversion_absoluteHeight="48dp"
             tools:layout_conversion_absoluteWidth="74dp"
@@ -121,20 +126,23 @@
             android:id="@+id/radio_btn_sport"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sport" />
+            android:text="Sport"
+            android:textColor="#0B164E" />
 
         <RadioButton
             android:id="@+id/radio_btn_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15sp"
-            android:text="Work" />
+            android:text="Work"
+            android:textColor="#0B164E" />
 
         <RadioButton
             android:id="@+id/radio_btn_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Home" />
+            android:text="Home"
+            android:textColor="#0B164E" />
     </RadioGroup>
 
 
