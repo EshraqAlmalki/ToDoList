@@ -77,7 +77,7 @@
 
             android:ems="20"
             android:fontFamily="@font/im_fell_english"
-            android:hint="Enter You Description Here"
+            android:hint="Enter the description here"
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:textColor="#0B164E"
